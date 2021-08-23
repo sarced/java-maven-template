@@ -1,0 +1,37 @@
+{{- if eq .Values.deployment_target "kubernetes" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.service_name }}
+    template: {{ .Values.service_name }}
+  name: {{ .Values.service_name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.service_name }}
+      deploymentconfig: {{ .Values.service_name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service_name }}
+        deploymentconfig: {{ .Values.service_name }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.secret_name }}
+      containers:
+      - image: {{ .Values.docker_image }}
+        imagePullPolicy: Always
+        name: {{ .Values.service_name }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+status: {}
+{{- end }}

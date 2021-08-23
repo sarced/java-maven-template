@@ -1,0 +1,9 @@
+service_name: ${CI_COMMIT_REF_SLUG}-${CI_PROJECT_NAME}
+service_url: ${SERVICE_URL}
+deployment_target: openshift
+docker_image: ${CI_REGISTRY_IMAGE}:${BUILD_VERSION}
+secret_name: ${REGISTRY_SECRET_NAME}
+imageCredentials:
+  registry: ${CI_REGISTRY}
+  username: ${CI_DEPLOY_USER}
+  password: ${CI_DEPLOY_PASSWORD}

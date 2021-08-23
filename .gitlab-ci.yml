@@ -1,0 +1,21 @@
+include:
+  - project: "dep/library/ci-library"
+    ref: production
+    file: "main.yml"
+
+# Add dedicated job to build the application and archive build result
+build-application:
+  stage: build-application
+  image:
+    name: $CI_REGISTRY/dep/library/devops-images/java-maven:3.6.0-jdk-11-slim
+  extends: .java-job-with-web-requests
+  except:
+    - production
+  script:
+    - mvn package
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
+  coverage: '/(\d+(\.\d+)? %) covered/'  
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 day

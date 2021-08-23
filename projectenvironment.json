@@ -1,0 +1,30 @@
+{
+  "groups": [{
+    "_id": "5e3c9a700000000000000000",
+    "name": "Project Environment",
+    "slug": "projectenvironment",
+    "dashboards": [{
+      "_id": "5e3c9a700000000000000021",
+      "name": "${CI_PROJECT_NAME}",
+      "connectors": [
+        {
+          "_id": "5e3c9a700000000000000023",
+          "id": "linktodeployment",
+          "name": "Link to deployment",
+          "slug_model": "static-json",
+          "value": "deployment-info-template.json"
+        }
+      ],
+      "boxes": [
+        {
+          "_id": "5e3c9a700000000000000022",
+          "border_color": "White",
+          "title": "Link to deployment",
+          "connector_id": "linktodeployment",
+          "sizex": 6,
+          "sizey": 5
+        }
+      ]
+    }]
+  }]
+}
